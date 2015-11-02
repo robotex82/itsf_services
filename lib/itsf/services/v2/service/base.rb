@@ -20,7 +20,7 @@ module Itsf
             new(attributes, *args).send(:do_work)
           end
 
-          def initialize(attributes, *args)
+          def initialize(attributes = {}, *args)
             options = args.extract_options!
             options.reverse_merge!({ :instrumenter => ActiveSupport::Notifications })
 
