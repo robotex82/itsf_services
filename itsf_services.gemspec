@@ -9,15 +9,13 @@ Gem::Specification.new do |s|
   s.version     = Itsf::Services::VERSION
   s.authors     = ["Roberto Vasquez Angel"]
   s.email       = ["roberto.vasquez@anwr-group.com"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of Itsf::Services."
-  s.description = "TODO: Description of Itsf::Services."
+  s.homepage    = "https://github.com/robotex82/itsf_services"
+  s.summary     = "ITSF Services Rails Engine."
+  s.description = "Provides Service Objects with rich Responses."
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["test/**/*"]
 
-  s.add_dependency "rails", "~> 4.2.4"
-
-  s.add_dependency "deface"
+  s.add_dependency "rails", "> 4.0"
 end
