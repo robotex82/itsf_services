@@ -11,7 +11,7 @@ module Itsf
           def_delegator :@instrumenter, :instrument
           attr_accessor :instrumenter
           attr_reader :response
-          
+
           def self.i18n_scope
             'activerecord'
           end
@@ -22,21 +22,21 @@ module Itsf
 
           def initialize(attributes = {}, *args)
             options = args.extract_options!
-            options.reverse_merge!({ :instrumenter => ActiveSupport::Notifications })
+            options.reverse_merge!(instrumenter: ActiveSupport::Notifications)
 
-            @errors  = ActiveModel::Errors.new(self)
+            @errors = ActiveModel::Errors.new(self)
 
             initialize_instrumenter(options[:instrumenter])
             instrument('initialize.export_to_sap.payment.dzb') do
               initialize_attributes if respond_to?(:initialize_attributes)
-              set_attributes(attributes)
+              send_attributes(attributes)
               initialize_response
             end
           end
 
           private
 
-          def set_attributes(attributes)
+          def send_attributes(attributes)
             attributes.each do |name, value|
               send("#{name}=", value)
             end

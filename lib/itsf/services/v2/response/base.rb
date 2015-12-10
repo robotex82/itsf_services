@@ -9,7 +9,7 @@ module Itsf
           attr_writer :success
 
           def initialize
-            @errors  = ActiveModel::Errors.new(self)
+            @errors = ActiveModel::Errors.new(self)
           end
 
           def success?
@@ -24,7 +24,7 @@ module Itsf
             send(attr)
           end
 
-          def self.human_attribute_name(attr, options = {})
+          def self.human_attribute_name(attr, _options = {})
             attr
           end
 
@@ -34,9 +34,7 @@ module Itsf
 
           private
 
-          def errors=(errors)
-            @errors = errors
-          end
+          attr_writer :errors
         end
       end
     end

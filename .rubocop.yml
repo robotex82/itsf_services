@@ -1,0 +1,7 @@
+Documentation:
+  Enabled: false
+Metrics/LineLength:
+  Exclude:
+    - Guardfile
+    - bin/**/*
+  Max: 120
