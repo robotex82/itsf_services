@@ -10,11 +10,14 @@ module Itsf
 
           def initialize
             @errors  = ActiveModel::Errors.new(self)
-            # @success = false
           end
 
           def success?
             @errors.blank?
+          end
+
+          def failed?
+            !success?
           end
 
           def read_attribute_for_validation(attr)
