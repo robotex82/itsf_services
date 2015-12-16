@@ -63,6 +63,18 @@ module Itsf
             @response
           end
 
+          def say(message, options = {})
+            options.reverse_merge!(indent: 0)
+            indent = options.delete(:indent)
+            puts "[#{self.class.name}]: #{'  ' * indent}#{message}"
+            true
+          end
+
+          def add_error_and_say(attribute, message, options = {})
+            errors.add(attribute, message)
+            say(message, options)
+          end
+
           def set_errors_on_response
             @response.send(:'errors=', @errors)
           end
