@@ -8,9 +8,13 @@ module Itsf
           include ActiveModel::Validations
           extend Forwardable
 
+          include ActiveModel::Conversion
+          def persisted?; false end
+
           def_delegator :@instrumenter, :instrument
           attr_accessor :instrumenter
           attr_reader :response
+          attr_reader :_messages
 
           def self.i18n_scope
             'activerecord'
@@ -24,6 +28,7 @@ module Itsf
             options = args.extract_options!
             options.reverse_merge!(instrumenter: ActiveSupport::Notifications)
 
+            @_messages = []
             @errors = ActiveModel::Errors.new(self)
 
             initialize_instrumenter(options[:instrumenter])
@@ -59,15 +64,29 @@ module Itsf
           end
 
           def response
+            set_messages_on_response
             set_errors_on_response
             @response
           end
 
           def say(message, options = {})
-            options.reverse_merge!(indent: 0)
+            options.reverse_merge!(indent: 0, level: :info)
             indent = options.delete(:indent)
-            puts "[#{self.class.name}]: #{'  ' * indent}#{message}"
+            level = options.delete(:level)
+            formatted_message = "[#{self.class.name}]: #{'  ' * indent}#{message}"
+            puts formatted_message
+            @_messages << Services::V2::Message::Base.new(service_class: self.class, message: message, level: level, indent: indent)
             true
+          end
+
+          def info(message, options = {})
+            options.reverse_merge!(level: :info)
+            say(message, options)
+          end
+
+          def warn(message, options = {})
+            options.reverse_merge!(level: :warning)
+            say(message, options)
           end
 
           def add_error_and_say(attribute, message, options = {})
@@ -77,6 +96,10 @@ module Itsf
 
           def set_errors_on_response
             @response.send(:'errors=', @errors)
+          end
+
+          def set_messages_on_response
+            @response.send(:'messages=', @_messages)
           end
         end
       end

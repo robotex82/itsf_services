@@ -6,9 +6,11 @@ module Itsf
           extend ActiveModel::Naming
 
           attr_reader :errors
+          attr_reader :messages
           attr_writer :success
 
           def initialize
+            @messages = []
             @errors = ActiveModel::Errors.new(self)
           end
 
@@ -35,6 +37,7 @@ module Itsf
           private
 
           attr_writer :errors
+          attr_writer :messages
         end
       end
     end
