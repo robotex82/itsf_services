@@ -89,6 +89,12 @@ module Itsf
             say(message, options)
           end
 
+          def error(message, options = {})
+            options.reverse_merge!(level: :error, attribute: :base)
+            errors.add(options[:attribute], message)
+            say(message, options)
+          end
+
           def add_error_and_say(attribute, message, options = {})
             errors.add(attribute, message)
             say(message, options)
