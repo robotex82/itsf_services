@@ -32,8 +32,8 @@ module Itsf
             @errors = ActiveModel::Errors.new(self)
 
             initialize_instrumenter(options[:instrumenter])
-            instrument('initialize.export_to_sap.payment.dzb') do
-              initialize_attributes if respond_to?(:initialize_attributes)
+            instrument('initialize.base.service.v2.services.itsf') do
+              initialize_attributes if respond_to?(:initialize_attributes, true)
               send_attributes(attributes)
               initialize_response
             end
