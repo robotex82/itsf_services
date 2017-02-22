@@ -74,7 +74,7 @@ module Itsf
             indent = options.delete(:indent)
             level = options.delete(:level)
             formatted_message = "[#{self.class.name}]: #{'  ' * indent}#{message}"
-            puts formatted_message
+            puts formatted_message unless Itsf::Services.silenced_levels[Rails.env].include?(level)
             @_messages << Services::V2::Message::Base.new(service_class: self.class, message: message, level: level, indent: indent)
             true
           end
