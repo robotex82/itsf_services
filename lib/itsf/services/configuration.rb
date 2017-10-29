@@ -9,12 +9,12 @@ module Itsf
         yield self
       end
 
-      mattr_accessor :silenced_levels do
+      mattr_accessor(:silenced_levels) do
         {
           test:        [],
           development: [],
           production:  []
-        }
+        }.with_indifferent_access
       end
 
       def silenced_levels=(silenced_levels)
